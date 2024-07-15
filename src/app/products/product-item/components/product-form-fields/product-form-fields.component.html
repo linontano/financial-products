@@ -1,0 +1,32 @@
+<div [formGroup]="formGroup">
+    <div>
+        <label for="id">ID</label>
+        <input id="id" formControlName="id" />
+    </div>
+    <div>
+        <label for="name">Nombre</label>
+        <input id="name" formControlName="name" />
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <input id="description" formControlName="description" />
+    </div>
+    <div>
+        <label for="logo">Logo</label>
+        <input id="logo" formControlName="logo"/>
+    </div>
+    <div>
+        <label for="dateRelease">Release Date</label>
+        <input id="dateRelease" type="date" formControlName="dateRelease">
+      </div>
+    
+      <div>
+        <label for="dateRevision">Revision Date</label>
+        <input id="dateRevision" type="date" formControlName="dateRevision" readonly>
+        <div *ngIf="true">
+            <span *ngIf="formGroup.controls['dateRevision'].errors">{{formGroup.controls['dateRevision'].errors | json}}</span>
+          </div>
+      </div>
+    <div>Validador: {{ formGroup.valid }}</div>
+    <!-- Add other fields as needed -->
+</div>

@@ -1,0 +1,6 @@
+<div class="product-list">
+    <product-search (search)="onSearch($event)"></product-search>
+    <button (click)="addProduct()">Añadir Producto</button>
+    <product-table [products]="filteredProducts" (edit)="editProduct($event)"
+        (delete)="deleteProduct($event)"></product-table>
+</div>

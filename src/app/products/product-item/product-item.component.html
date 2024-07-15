@@ -1,0 +1,6 @@
+<div>
+    <h2>{{ isEditMode ? 'Edit Product ' + productId : 'Add Product' }}</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <product-form-fields [formGroup]="productForm"></product-form-fields>
+    </form>
+</div>
