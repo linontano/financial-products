@@ -8,4 +8,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProductFormFieldsComponent {
   @Input() formGroup!: FormGroup;
+  @Input() isEditMode: boolean = false;
+  get f(){
+    return this.formGroup.controls;
+  }
 }

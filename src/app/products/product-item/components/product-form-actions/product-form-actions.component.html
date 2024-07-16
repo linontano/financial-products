@@ -1,1 +1,4 @@
-<p>product-form-actions works!</p>
+<div class="container-btn">
+    <button class="btn-secondary" type="button" (click)="onReset()">Limpiar</button>
+    <button class="btn-primary" [disabled]="disabledSubmit" type="submit">Guardar</button>
+</div>

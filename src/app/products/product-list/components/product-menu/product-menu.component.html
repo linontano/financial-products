@@ -1,0 +1,11 @@
+<!-- menu-contextual.component.html -->
+<div class="menu-container">
+    <button class="menu-button" (click)="toggleMenu($event)">&#x22EE;</button>
+    <div class="menu" *ngIf="isMenuOpen">
+      <ul>
+        <li (click)="editProduct()">Editar</li>
+        <li (click)="deleteProduct()">Eliminar</li>
+      </ul>
+    </div>
+  </div>
+  

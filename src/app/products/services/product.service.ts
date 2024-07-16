@@ -1,43 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product.model';
-import { Observable, of } from 'rxjs';
+import { Product, ProductAPI, ProductDTO, ProductAdapter, ProductDTOAdapter, ProductAPIAdapter } from '../models/product.model';
+import { Observable, map, throwError } from 'rxjs';
+import {catchError} from 'rxjs/operators'
+import { environment as env } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private API_BASE_URL = env.API_BASE_URL
+  private PRODUCT_PATH = env.PRODUCTS_PATH
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-  products: Product[] = Array.from({ length: 50 }, (_, i) => ({
-    id: i + 1,
-    name: `Producto ${i + 1}`,
-    description: `Descripcion ${i + 1}`,
-    price: (i + 1) * 100
-  }));
-
-  getProducts(): Observable<Product[]> {
-    console.log('Get Products')
-    return of(this.products);
+  getProducts(): Observable<ProductDTO> {
+    return this.http.get(`${this.API_BASE_URL}${this.PRODUCT_PATH}`).pipe(
+      map(response =>(ProductDTOAdapter.adapt(response)))
+    );
   }
 
-  getProductById(id: number): Observable<Product> {
-    const product = this.products.find(p => p.id === id);
-    return of(product!);
+  checkIfExistsProductID(productID: String): Observable<boolean> {
+    return this.http.get<boolean>(`${this.API_BASE_URL}${this.PRODUCT_PATH}/verification/${productID}`)
   }
 
-  addProduct(product: Product): void {
-    this.products.push(product);
+  getProductById(id: string): Observable<Product> {
+    return this.http.get(`${this.API_BASE_URL}${this.PRODUCT_PATH}/${id}`).pipe(
+      map(item => (ProductAdapter.adapt(item)))
+    );
   }
 
-  updateProduct(product: Product): void {
-    const index = this.products.findIndex(p => p.id === product.id);
-    if (index > -1) {
-      this.products[index] = product;
-    }
+  addProduct(product: Product): Observable<any> {
+    const productBody = ProductAPIAdapter.adapt(product)
+    return this.http.post(`${this.API_BASE_URL}${this.PRODUCT_PATH}`, productBody).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  deleteProduct(id: number): void {
-    this.products = this.products.filter(p => p.id !== id);
+  updateProduct(id: string, product: Product): Observable<any> {
+    const productBody = ProductAPIAdapter.adapt(product)
+    return this.http.put(`${this.API_BASE_URL}${this.PRODUCT_PATH}/${id}`, productBody).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  deleteProduct(id: string): Observable<any> {
+    return this.http.delete(`${this.API_BASE_URL}${this.PRODUCT_PATH}/${id}`)
+  }
+  
+  private handleError(error: any): Observable<never>{
+    console.error('An error occurred', error);
+    return throwError(() => new Error(error.mesasage || 'Server Error'));
+  }
 }

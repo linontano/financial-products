@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .container-form{
+        background-color: white;
+        border-radius: 7px;
+        margin: 50px auto;
+        max-width: 720px;
+        width: 100%;
+        h1{
+            text-align: center;
+        }
+    }
+    .action-msg{
+        text-align: center;
+        font-weight: bold;
+        margin-top: 40px;
+        color: rgb(35, 147, 65);
+    }
+}

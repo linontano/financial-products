@@ -1,4 +1,7 @@
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, AsyncValidator, AsyncValidatorFn, FormGroup, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { ProductService } from "../../services/product.service";
+import { Injectable } from "@angular/core";
+import { catchError, map, Observable, of } from "rxjs";
 
 export class CustomValidators {
     static releaseDateValidator(): ValidatorFn {
@@ -8,7 +11,6 @@ export class CustomValidators {
 
             const releaseDate = new Date(control.value);
             const releaseDateFix = new Date(releaseDate.getTime() + releaseDate.getTimezoneOffset()* 60000)
-            console.log(control.value, releaseDate, releaseDate.getTimezoneOffset(), releaseDateFix);
             if (isNaN(releaseDateFix.getTime())){
                 return {invalidDate: 'Fecha inválida'};
             }
@@ -37,8 +39,23 @@ export class CustomValidators {
             const expectedRevisionDate = new Date(releaseDate);
             expectedRevisionDate.setFullYear(releaseDate.getFullYear() + 1);
 
-            return expectedRevisionDate.getTime() === revisionDate.getTime() ? null : {revisionDateInvalid: 'Fecha de revisión debe ser exactamente igual a un año después de la fecha de lanzamiento'};
+            return expectedRevisionDate.getTime() === revisionDate.getTime() ? null : {revisionDateInvalid: 'Fecha de revisión debe ser igual a un año después de la fecha de lanzamiento'};
         }
 
     }
 };
+
+export class UniqueIDValidator {
+  static createValidator(productService: ProductService, isEditMode: boolean): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+        if (isEditMode){
+            return of(null);
+        }
+        return productService.checkIfExistsProductID(control.value).pipe(
+            map((isTaken) => (isTaken ? {uniqueID: true} : null)),
+            catchError(() => of(null)),
+          );
+    }
+    
+  }
+}

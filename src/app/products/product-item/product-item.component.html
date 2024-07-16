@@ -1,6 +1,12 @@
-<div>
-    <h2>{{ isEditMode ? 'Edit Product ' + productId : 'Add Product' }}</h2>
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-        <product-form-fields [formGroup]="productForm"></product-form-fields>
+<div class="container">
+    <p class="action-msg" *ngIf="actionCompleted">
+        <span *ngIf="!isEditMode; else editMessage">Producto creado con éxito</span>
+        <ng-template #editMessage><span >Producto editado con éxito</span></ng-template>
+    </p>
+    <form class="container-form" [formGroup]="productForm" (ngSubmit)="onSubmit()" *ngIf="!loadingProductForm">
+        <h1>{{ isEditMode ? 'Formulario de Edición ': 'Formulario de Registro' }}</h1>
+        <hr>
+        <product-form-fields [formGroup]="productForm" [isEditMode]="isEditMode"></product-form-fields>
+        <product-form-actions [disabledSubmit]="isEditMode ?(!isProductFormChanged || productForm.invalid) : productForm.invalid" (cancel)="onCancel()" (reset)="resetProductForm()"></product-form-actions>
     </form>
 </div>

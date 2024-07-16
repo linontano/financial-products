@@ -1,32 +1,78 @@
-<div [formGroup]="formGroup">
-    <div>
+<div [formGroup]="formGroup" class="form-input-container">
+    <div class="form-input">
         <label for="id">ID</label>
-        <input id="id" formControlName="id" />
+        <input id="id" formControlName="id"/>
+        <div class="error-label" *ngIf="f['id'].invalid && (f['id'].dirty && f['id'].touched)">
+            <small *ngIf="f['id'].hasError('required')">
+                Un ID es requerido.
+            </small>
+            <small *ngIf="f['id'].hasError('minlength') || f['id'].hasError('maxlength')">
+                El ID debe ser de 3 a 10 caracteres.
+            </small>
+            <small *ngIf="f['id'].hasError('uniqueID')">
+                El ID ya existe.
+            </small>
+        </div>
     </div>
-    <div>
+    <div class="form-input">
         <label for="name">Nombre</label>
-        <input id="name" formControlName="name" />
+        <input id="name" formControlName="name" placeholder="Tarjeta Crédito"/>
+        <div class="error-label" *ngIf="f['name'].invalid && (f['name'].dirty && f['name'].touched)">
+            <small *ngIf="f['name'].hasError('required')">
+                Un nombre es requerido.
+            </small>
+            <small *ngIf="f['name'].hasError('minlength') || f['name'].hasError('maxlength')">
+                El nombre debe ser de 6 a 100 caracteres.
+            </small>
+        </div>
     </div>
-    <div>
-        <label for="description">Description</label>
-        <input id="description" formControlName="description" />
+    <div class="form-input">
+        <label for="description">Descripción</label>
+        <input id="description" formControlName="description"/>
+        <div class="error-label" *ngIf="f['description'].invalid && (f['description'].dirty && f['description'].touched)">
+            <small *ngIf="f['description'].hasError('required')">
+                Una descripción es requerida.
+            </small>
+            <small *ngIf="f['description'].hasError('minlength') || f['description'].hasError('maxlength')">
+                La descripción debe ser de 10 a 200 caracteres.
+            </small>
+        </div>
     </div>
-    <div>
+    <div class="form-input">
         <label for="logo">Logo</label>
-        <input id="logo" formControlName="logo"/>
+        <input id="logo" formControlName="logo" />
+        <div class="error-label" *ngIf="f['logo'].invalid && (f['logo'].dirty && f['logo'].touched)">
+            <small *ngIf="f['logo'].hasError('required')">
+                Una URL para el Logo es requerida.
+            </small>
+            <small *ngIf="f['logo'].hasError('pattern')">
+                Ha ingresado una URL inválida de una imagen. (Solo formatos JPG y PNG.)
+            </small>
+        </div>
     </div>
-    <div>
-        <label for="dateRelease">Release Date</label>
+    <div class="form-input">
+        <label for="dateRelease">Fecha Liberación</label>
         <input id="dateRelease" type="date" formControlName="dateRelease">
-      </div>
-    
-      <div>
-        <label for="dateRevision">Revision Date</label>
+        <div class="error-label" *ngIf="f['dateRelease'].invalid && (f['dateRelease'].dirty || f['dateRelease'].touched)">
+            <small *ngIf="f['dateRelease'].hasError('invalidDate')">
+                Fecha de lanzamiento es requerida
+            </small>
+            <small *ngIf="f['dateRelease'].hasError('releaseDateInvalid')">
+                Fecha de lanzamiento debe ser mayor o igual a la fecha actual
+            </small>
+        </div>
+    </div>
+
+    <div class="form-input">
+        <label for="dateRevision">Fecha Revisión</label>
         <input id="dateRevision" type="date" formControlName="dateRevision" readonly>
-        <div *ngIf="true">
-            <span *ngIf="formGroup.controls['dateRevision'].errors">{{formGroup.controls['dateRevision'].errors | json}}</span>
-          </div>
-      </div>
-    <div>Validador: {{ formGroup.valid }}</div>
-    <!-- Add other fields as needed -->
+        <div class="error-label" *ngIf="f['dateRevision'].invalid && (f['dateRevision'].dirty || f['dateRevision'].touched)">
+            <small *ngIf="f['dateRevision'].hasError('invalidDate')">
+                Fecha de revisión es requerida
+            </small>
+            <small *ngIf="f['dateRevision'].hasError('revisionDateInvalid')">
+                Fecha de revisión debe ser igual a un año después de la fecha de lanzamiento
+            </small>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,11 @@
+.container-btn{
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    padding: 30px 15px;
+    gap: 15px;
+    button{
+        flex:1;
+    }
+
+}

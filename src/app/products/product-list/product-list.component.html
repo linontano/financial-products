@@ -1,6 +1,13 @@
-<div class="product-list">
-    <product-search (search)="onSearch($event)"></product-search>
-    <button (click)="addProduct()">Añadir Producto</button>
-    <product-table [products]="filteredProducts" (edit)="editProduct($event)"
-        (delete)="deleteProduct($event)"></product-table>
+<div class="container">
+    <div class="product-list-header">
+        <product-search (search)="onSearch($event)"></product-search>
+        <button class="btn-primary" (click)="addProduct()">Agregar</button>
+    </div>
+    <div class="product-list-container">
+        <product-table *ngIf="!loadedProucts" [products]="filteredProducts" (edit)="editProduct($event)"
+            (delete)="deleteProduct($event)"></product-table>
+    </div>
 </div>
+<product-modal *ngIf="showDeleteModal && selectedProduct" [messageModal]="'¿Estás seguro de eliminar el producto '+ selectedProduct.name +' ?'" 
+(confirmAction)="onConfirmDelete()" 
+(cancelAction)="onCancelDelete()"></product-modal>

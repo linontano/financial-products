@@ -1,20 +1,45 @@
 <table>
     <thead>
         <tr>
+            <th>Logo</th>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Precio</th>
-            <th>Acciones</th>
+            <th>Fecha de liberación</th>
+            <th>Fecha de reestructuración</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let product of products">
+        <tr *ngFor="let product of products | slice: (currentPage - 1)*itemsPerPage : currentPage*itemsPerPage">
+            <td>
+                <div class="logo-container">
+                    <img [src]="product.logo" [alt]="'Logo '+product.name " />
+                </div>
+            </td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
-            <td>{{ product.price }}</td>
-            <td>
-                
-            </td>
+            <td>{{ product.dateRelease | date: 'MM/dd/y' }}</td>
+            <td>{{ product.dateRevision | date: 'MM/dd/y' }}</td>
+            <td><product-menu (edit)="onEditProduct(product)" (delete)="onDeleteProduct(product)"></product-menu></td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                <div class="footer-content">
+                    <div class="pagination">
+                        <p>{{ products.length }} Resultado{{ products.length !== 1 ? 's' : '' }}</p>
+                        <button (click)="prevPage()" [disabled]="currentPage === 1">&lt;</button>
+                        <button (click)="nextPage()" [disabled]="currentPage === totalPages">&gt;</button>
+                        <p>{{ currentPage }} de {{ totalPages }}</p>
+                    </div>
+                    <div class="items-per-page">
+                        <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
+                            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
 </table>
