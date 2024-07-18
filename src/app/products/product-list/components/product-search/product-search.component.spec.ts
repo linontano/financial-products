@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductSearchComponent } from './product-search.component';
+import { FormsModule } from '@angular/forms';
 
 describe('ProductSearchComponent', () => {
   let component: ProductSearchComponent;
@@ -8,7 +9,9 @@ describe('ProductSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProductSearchComponent]
+      imports: [FormsModule],
+      declarations: [ProductSearchComponent],
+
     })
     .compileComponents();
 
@@ -20,4 +23,16 @@ describe('ProductSearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit (search) Output with the input string when changes', () => {
+    jest.spyOn(component.search, 'emit');
+
+    const inputElement: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    inputElement.value = "New Search";
+    inputElement.dispatchEvent(new Event('input'));
+
+    expect(component.search.emit).toHaveBeenCalledWith("New Search");
+  })
+
+
 });

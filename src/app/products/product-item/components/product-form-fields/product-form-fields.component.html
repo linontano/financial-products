@@ -1,4 +1,4 @@
-<div [formGroup]="formGroup" class="form-input-container">
+<div *ngIf="formGroup" [formGroup]="formGroup" class="form-input-container">
     <div class="form-input">
         <label for="id">ID</label>
         <input id="id" formControlName="id"/>

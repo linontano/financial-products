@@ -61,3 +61,21 @@ Para levantar el proyecto, sigue estos pasos:
     ```
 
     Esto iniciará el servidor de desarrollo y podrás acceder a la aplicación en http://localhost:4200.
+
+## Pruebas Unitarias
+
+Este proyecto utiliza [Jest](https://jestjs.io/) para realizar pruebas unitarias en los componentes de Angular. A continuación se detallan los pasos necesarios para ejecutar las pruebas y visualizar el reporte de cobertura.
+
+Para ejecutar las pruebas unitarias, utiliza el siguiente comando:
+
+```bash
+npm test
+```
+
+Para generar el reporte de cobertura de pruebas, ejecutar el siguiente comando:
+
+```bash
+npm run test:co
+```
+
+El reporte se generará en la carpeta `coverage` dentro del directorio del proyecto.

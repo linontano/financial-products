@@ -12,4 +12,6 @@ export class ProductSearchComponent {
   onSearch(): void {
     this.search.emit(this.searchQuery);
   }
+
+  
 }
